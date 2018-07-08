@@ -1,0 +1,16 @@
+# Credentials and private data files
+account.json
+# Other system or application specific files and junk
+*.DS_Store
+*.egg*
+*.log
+*.dll
+*.exe
+*.mo
+*.pyc
+*.swo
+*.swp
+.*.swp
+*.orig
+.idea
+.project
