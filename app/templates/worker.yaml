@@ -1,26 +1,24 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "fullname" . }}
+  name: {{ template "fullname" . }}-worker
   labels:
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    chart: "{{ .Chart.Name }}-worker-{{ .Chart.Version | replace "+" "_" }}"
 spec:
   replicas: {{ .Values.replicaCount }}
   template:
     metadata:
       labels:
-        app: {{ template "fullname" . }}
+        app: {{ template "fullname" . }}-worker
     spec:
       containers:
-      - name: {{ .Chart.Name }}
+      - name: {{ .Chart.Name }}-worker
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command: ["demo_proxy"]
-        args: ["server", "start"]
+        args: ["worker", "start"]
         env:
           - name: PROXY_REDIS_HOST
             value: "redis-ha-redis-ha-master-svc.kube-system.svc.cluster.local"
-        ports:
-        - containerPort: {{ .Values.service.internalPort }}
         resources:
 {{ toYaml .Values.resources | indent 12 }}
